@@ -16,13 +16,20 @@ public class BankAccountManagerService {
     @Autowired
     private BankAccountManagerDao dao;
 
-    public BankTransactionDetailsResponse getBankTransactionDetails(){
-        Data data = new Data();
-        data.setBankTransactionDetails(dao.getBankTransactionDetails());
-        BankTransactionDetailsResponse response = new BankTransactionDetailsResponse();
-        response.setCode(200);
-        response.setMessage("Success");
-        response.setData(data);
-        return response;
+    public BankTransactionDetailsResponse getBankTransactionDetails(int start_param, int size_param){
+
+         if(size_param == 0){
+            size_param = Integer.MAX_VALUE;
+          } else {
+             start_param = start_param - 1;
+         }
+
+            Data data = new Data();
+            data.setBankTransactionDetails(dao.getBankTransactionDetails(start_param, size_param));
+            BankTransactionDetailsResponse response = new BankTransactionDetailsResponse();
+            response.setCode(200);
+            response.setMessage("Success");
+            response.setData(data);
+            return response;
     }
 }

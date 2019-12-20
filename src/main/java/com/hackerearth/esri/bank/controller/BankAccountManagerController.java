@@ -5,9 +5,7 @@ import com.hackerearth.esri.bank.service.BankAccountManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class BankAccountManagerController {
@@ -17,8 +15,12 @@ public class BankAccountManagerController {
     private BankAccountManagerService service;
 
     @RequestMapping(value = "/getTransactions", method = RequestMethod.GET)
-    public BankTransactionDetailsResponse getBankTransactionDetails() {
-        return service.getBankTransactionDetails();
+    public BankTransactionDetailsResponse getBankTransactionDetails(
+            @RequestParam(required = false, value = "start", defaultValue = "0") Integer start ,
+            @RequestParam(required = false, value = "size", defaultValue = "0") Integer page
+            ) {
+
+        return service.getBankTransactionDetails(start, page);
     }
 
 

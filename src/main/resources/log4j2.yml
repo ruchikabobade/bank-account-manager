@@ -1,0 +1,40 @@
+Configutation:
+  name: Default
+  Properties:
+    Property:
+      - name: log-path
+        value: logs/
+      - name: archive
+        value: ${log-path}/archive
+  Appenders:
+    RollingFile:
+      - name: FileAppender
+        fileName: ${log-path}/bank-account-manager.log
+        filePattern: ${archive}/bank-account-manager_%d{yyyy-MM-dd-HH}-%i.log.gz
+        PatternLayout:
+          pattern: "[%-5level] %d{dd-MM-yyyy HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 10 MB
+          TimeBasedTriggeringPolicy:
+            interval: 1
+    Console:
+      - name: ConsoleAppender
+        target: SYSTEM_OUT
+        PatternLayout:
+          pattern: "[%-5level] %d{dd-MM-yyyy HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+  Loggers:
+      Root:
+        level: INFO
+        AppenderRef:
+          - ref: FileAppender
+          - ref: ConsoleAppender
+      Logger:
+        - name: org.apache.cxf
+          additivity: false
+          level: INFO
+          AppenderRef:
+            - ref: ConsoleAppender
+              level: INFO
+            - ref: FileAppender
+              level: INFO
